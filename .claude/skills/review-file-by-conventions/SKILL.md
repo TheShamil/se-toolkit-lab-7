@@ -1,5 +1,5 @@
 ---
-name: review-via-conventions
+name: review-file-by-conventions
 description: Review a task file for convention violations
 argument-hint: "<path>"
 ---
@@ -32,7 +32,7 @@ Review a single file for violations of the lab authoring conventions. The file m
 
 ## Output format
 
-Write the report to `tmp/review-via-conventions/<repo-root-path>`, where `<repo-root-path>` is the file's path from the repository root (e.g., `tmp/review-via-conventions/lab/tasks/setup.md` for `lab/tasks/setup.md`, `tmp/review-via-conventions/wiki/web-development.md` for `wiki/web-development.md`). Create intermediate directories if they do not exist.
+Write the report to `tmp/review-file-by-conventions/<repo-root-path>`, where `<repo-root-path>` is the file's path from the repository root (e.g., `tmp/review-file-by-conventions/lab/tasks/setup.md` for `lab/tasks/setup.md`, `tmp/review-file-by-conventions/wiki/web-development.md` for `wiki/web-development.md`). Create intermediate directories if they do not exist.
 
 The report must be self-contained so another session or agent can act on it without extra context. Structure:
 
