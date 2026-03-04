@@ -65,7 +65,7 @@ Title: `[Task] Back-end Testing`
 - [1.3.3. Add a new unit test](#133-add-a-new-unit-test)
 - [1.3.4. Fix the bug](#134-fix-the-bug)
 - [1.3.5. Rerun unit tests](#135-rerun-unit-tests)
-- [1.3.6. Commit your changes](#136-commit-your-changes)
+- [1.3.6. Commit changes](#136-commit-changes)
 - [1.3.7. Transfer the changes to your VM](#137-transfer-the-changes-to-your-vm)
 - [1.3.8. Deploy the fixed `app` service on your VM](#138-deploy-the-fixed-app-service-on-your-vm)
 
