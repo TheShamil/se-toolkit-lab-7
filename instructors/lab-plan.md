@@ -3,6 +3,11 @@
 **Topic:** Agentic loops with observability using the VictoriaMetrics stack
 **Date:** 2026-03-11
 
+## Main goals
+
+- Demystify the agent loop concept by building a simple useful agent.
+- Convey the idea that you can let an agent to debug by providing it with access to observability tools.
+
 ## Learning outcomes
 
 By the end of this lab, students should be able to:
@@ -37,7 +42,11 @@ A senior engineer explains the assignment:
 
 ### Task 1 — Explore the Observability Stack
 
-**Purpose:** Build a mental model of the VictoriaMetrics stack and learn what observability data is available before writing any code.
+**Purpose:**
+
+Build a mental model of the VictoriaMetrics stack and learn what observability data is available before writing any code.
+
+**Summary:**
 
 Students start the provided Docker Compose environment, which runs VictoriaMetrics (metrics), VictoriaLogs (logs), and a simulated service that emits realistic metrics and log entries. They open the VictoriaMetrics UI and run several MetricsQL queries by hand to see what series exist. They also query the VictoriaLogs HTTP API to retrieve recent log entries. Students fill in a structured questionnaire file with answers extracted directly from the UI and API responses — metric names, label cardinality, log stream selectors, and the difference between a counter and a gauge. The questionnaire is committed to the repository and verified by the autochecker.
 
@@ -53,7 +62,11 @@ Students start the provided Docker Compose environment, which runs VictoriaMetri
 
 ### Task 2 — Build the Observability CLI
 
-**Purpose:** Implement a Python CLI using `rich` that queries VictoriaMetrics and VictoriaLogs and presents results in a readable format, forming the tool layer the agent will use in Task 3.
+**Purpose:**
+
+Implement a Python CLI using `rich` that queries VictoriaMetrics and VictoriaLogs and presents results in a readable format, forming the tool layer the agent will use in Task 3.
+
+**Summary:**
 
 Building on the API knowledge from Task 1, students implement a Python CLI with two subcommands: `metrics` (queries VictoriaMetrics via its HTTP query API and renders results as a `rich` table) and `logs` (queries VictoriaLogs via its HTTP query API and streams results as a `rich` live log panel). The CLI accepts arguments for the query string and a time range. Students write unit tests for the query-building and response-parsing logic using `pytest`. The seed project provides the project scaffold and a working `rich` table example as a reference; students implement the two query functions and their CLI wrappers by following the reference pattern.
 
@@ -68,7 +81,11 @@ Building on the API knowledge from Task 1, students implement a Python CLI with 
 
 ### Task 3 — Implement the Agentic Loop
 
-**Purpose:** Build the simplest possible agentic loop — an LLM that calls the observability tools from Task 2 iteratively until it can produce a diagnosis — and observe how tool availability and context accumulation drive autonomous reasoning.
+**Purpose:**
+
+Build the simplest possible agentic loop — an LLM that calls the observability tools from Task 2 iteratively until it can produce a diagnosis — and observe how tool availability and context accumulation drive autonomous reasoning.
+
+**Summary:**
 
 Students extend the CLI with an `investigate` subcommand. The command implements a minimal agentic loop: (1) send the user's question and a tool schema to the LLM; (2) if the LLM returns a tool call, execute the matching Python function and append the result to the message history; (3) repeat until the LLM returns a text response with no tool calls; (4) display the final diagnosis using `rich`. The available tools are the metric and log query functions from Task 2. The seed project provides the message-history accumulation skeleton with `# UNCOMMENT AND FILL IN` placeholders; students implement the tool-dispatch loop and the tool schema definitions. A Docker Compose service runs a simulated anomaly (a spike in HTTP 500 errors) that the agent must identify. Students observe the full loop in action, note how many iterations the agent takes, and record the finding in a comment on their issue. As a final step, students disable one of the two tools and re-run the agent to observe how the narrower tool set produces a less complete diagnosis — making visible that an agent's debugging ability is defined by the tools it can access.
 
@@ -86,7 +103,11 @@ Students extend the CLI with an `investigate` subcommand. The command implements
 
 ### Task 1 — Add a Traces Tool Using the Tempo API
 
-**Purpose:** Extend the agent with a third observability pillar — distributed traces — and observe how richer tool coverage changes the quality of the agent's diagnosis.
+**Purpose:**
+
+Extend the agent with a third observability pillar — distributed traces — and observe how richer tool coverage changes the quality of the agent's diagnosis.
+
+**Summary:**
 
 Students add a third tool, `get_traces`, that queries a Grafana Tempo instance (added to the Docker Compose file) for recent trace summaries for a given service and time window. They register the tool in the agent's tool schema alongside the metrics and logs tools. The simulated anomaly is updated to also produce a slow trace (high latency on a specific span) that only the trace tool can reveal. Students run the agent again and compare the diagnosis with and without the traces tool, recording the difference in a structured comparison file that the autochecker verifies. The Docker Compose update and the tool implementation must each be a separate commit.
 
