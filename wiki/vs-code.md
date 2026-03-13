@@ -665,13 +665,11 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 
    **Note:** the file will be created if it doesn't yet exist.
 
-   <details><summary><b>Troubleshooting (click to open)</b></summary>
-
-   <h4>(<code>macOS</code> only) <code>command code doesn't exist</code></h4>
-
-   [Add `VS Code` to `PATH`](#macos-only-add-vs-code-to-path).
-
-   </details>
+   > <h3>Troubleshooting</h3>
+   >
+   > **(`macOS` only) `command code doesn't exist`**
+   >
+   > [Add `VS Code` to `PATH`](#macos-only-add-vs-code-to-path).
 
 #### Open the file using a context menu
 
