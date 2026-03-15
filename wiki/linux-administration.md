@@ -65,11 +65,15 @@ Replace the placeholders:
 
 #### Change the owner and group (recursive)
 
-To change the owner and group recursively for a directory and its contents, add the `-R` flag:
+To change the owner and group recursively for a directory and its contents,
+
+[run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
 
 ```terminal
 chown -R <user>:<group> <fd-path>
 ```
+
+Replace the placeholder [`<fd-path>`](./file-system.md#fd-path-placeholder).
 
 ## Get my current user
 
