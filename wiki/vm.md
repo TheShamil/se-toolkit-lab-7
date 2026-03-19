@@ -12,13 +12,13 @@
 - [Go to the VMs site](#go-to-the-vms-site)
 - [Create a VM](#create-a-vm)
   - [Create a subscription](#create-a-subscription)
+  - [Delete the existing VM](#delete-the-existing-vm)
   - [Create a VM using the subscription](#create-a-vm-using-the-subscription)
-- [Go to the VM page](#go-to-the-vm-page)
-- [Get the IP address of the VM](#get-the-ip-address-of-the-vm)
+  - [Go to the VM page](#go-to-the-vm-page)
+  - [Check the VM is running](#check-the-vm-is-running)
+  - [Get the IP address of the VM](#get-the-ip-address-of-the-vm)
+- [Recreate the VM](#recreate-the-vm)
 - [Set up a new VM](#set-up-a-new-vm)
-- [Delete the VM](#delete-the-vm)
-- [Troubleshooting](#troubleshooting)
-  - [VM takes too long to start](#vm-takes-too-long-to-start)
 
 ## What is a VM
 
@@ -77,20 +77,24 @@ Complete these steps:
 
 <!-- no toc -->
 1. [Connect to the correct network](#connect-to-the-correct-network).
-2. [Create a subscription](#create-a-subscription).
-3. [Create a VM using the subscription](#create-a-vm-using-the-subscription).
+2. [Create a subscription](#create-a-subscription) if you don't have one.
+3. [Delete the existing VM](#delete-the-existing-vm) if you have one.
+4. [Create a VM using the subscription](#create-a-vm-using-the-subscription).
+5. [Go to the VM page](#go-to-the-vm-page).
+6. [Check the VM is running](#check-the-vm-is-running).
+7. [Get the IP address of the VM](#get-the-ip-address-of-the-vm).
+8. [Check the VM is accessible](#check-the-vm-is-accessible).
 
 ### Create a subscription
 
-1. [Connect to the correct network](#connect-to-the-correct-network).
-2. [Go to the VMs site](#go-to-the-vms-site).
-3. Click `+ NEW`.
-4. Click `MY ACCOUNT`.
-5. Click `ADD SUBSCRIPTION`.
-6. Click `Software Engineering Toolkit`.
-7. Click the checkmark.
-8. Go to the [`SUBSCRIPTIONS`](https://vm.innopolis.university/#Workspaces/MyAccountExtension/subscriptions) tab.
-9. Look at the `SUBSCRIPTION` column.
+1. [Go to the VMs site](#go-to-the-vms-site).
+2. Click `+ NEW`.
+3. Click `MY ACCOUNT`.
+4. Click `ADD SUBSCRIPTION`.
+5. Click `Software Engineering Toolkit`.
+6. Click the checkmark.
+7. Go to the [`SUBSCRIPTIONS`](https://vm.innopolis.university/#Workspaces/MyAccountExtension/subscriptions) tab.
+8. Look at the `SUBSCRIPTION` column.
 
    You should see there `Software Engineering Toolkit`.
 
@@ -102,18 +106,22 @@ Complete these steps:
 
    Don't just sit and wait. Complete other steps.
 
+### Delete the existing VM
+
+1. [Go to the VM page](#go-to-the-vm-page).
+2. Click `DELETE`.
+
 ### Create a VM using the subscription
 
-1. [Connect to the correct network](#connect-to-the-correct-network).
-2. [Set up `SSH` (LOCAL)](./vm-access.md#set-up-ssh-local) if it's not yet set up.
-3. [Go to the VMs site](#go-to-the-vms-site).
-4. Click `+ NEW`.
-5. Click `STANDALONE VIRTUAL MACHINE`.
-6. Click `FROM GALLERY`.
-7. Click `ALL`.
-8. Click `Linux Ubuntu 24.04 Software Engineering Toolkit`.
-9. Click `->` to go to the page 2.
-10. Fill in the fields:
+1. [Set up `SSH` (LOCAL)](./vm-access.md#set-up-ssh-local) if it's not yet set up.
+2. [Go to the VMs site](#go-to-the-vms-site).
+3. Click `+ NEW`.
+4. Click `STANDALONE VIRTUAL MACHINE`.
+5. Click `FROM GALLERY`.
+6. Click `ALL`.
+7. Click `Linux Ubuntu 24.04 Software Engineering Toolkit`.
+8. Click `->` to go to the page 2.
+9. Fill in the fields:
     - `NAME`: Write the name of your VM (we'll refer to it as [`<your-vm-name>`](#your-vm-name-placeholder) in the instructions).
     - `NEW PASSWORD`: Write the password.
     - `CONFIRM`: Write the same password.
@@ -121,25 +129,42 @@ Complete these steps:
        1. [Get the `SSH` public key (LOCAL)](./vm-access.md#get-the-ssh-public-key-local).
        2. Copy the **full content** of the public key file.
        3. Paste the content into the input field.
-11. Note that the user's name on the VM is [`root`](./linux.md#the-user-root).
-12. Click `->` to go to the page 3.
-13. Go to `NETWORK ADAPTER 1`.
-14. Click `Not Connected`.
-15. In the drop-down list, click `StudentsCourses01;10.93.24.0/22`.
-16. Click checkmark to complete the setup.
-17. The VM will become available in approximately 20 minutes.
+10. Note that the user's name on the VM is [`root`](./linux.md#the-user-root).
+11. Click `->` to go to the page 3.
+12. Go to `NETWORK ADAPTER 1`.
+13. Click `Not Connected`.
+14. In the drop-down list, click `StudentsCourses01;10.93.24.0/22`.
+15. Click checkmark to complete the setup.
+16. In approximately 20 minutes, [check the VM is accessible](#check-the-vm-is-accessible).
 
-## Go to the VM page
+### Go to the VM page
 
-1. [Connect to the correct network](#connect-to-the-correct-network).
-2. [Go to the VMs site](#go-to-the-vms-site).
-3. Click `VIRTUALS MACHINES`.
-4. Look at the `NAME` column.
-5. Click `<your-vm-name>`.
-6. Click `DASHBOARD`.
-7. You should be on the VM page.
+1. [Go to the VMs site](#go-to-the-vms-site).
+2. Click `VIRTUALS MACHINES`.
+3. Look at the `NAME` column.
+4. Click [`<your-vm-name>`](#your-vm-name-placeholder).
+5. Click `DASHBOARD`.
+6. You should be on the VM page.
 
-## Get the IP address of the VM
+### Check the VM is running
+
+1. [Go to the VM page](./vm.md#go-to-the-vm-page).
+2. Go to the `quick glance` sidebar.
+3. You should see:
+
+   ```terminal
+   Status
+   Running
+   ```
+
+   > <h3>Troubleshooting</h3>
+   >
+   > **The VM isn't running in 20 minutes after creation**
+   >
+   > 1. Wait 10 more minutes.
+   > 2. If the status doesn't change, [recreate the VM](#recreate-the-vm).
+
+### Get the IP address of the VM
 
 1. [Go to the VM page](#go-to-the-vm-page).
 2. Go to the `quick glance` sidebar (on the right).
@@ -154,43 +179,14 @@ Complete these steps:
 
    Example: `StudentsCourses01` - `192.0.2.1`
 
+## Recreate the VM
+
+1. [Delete the existing VM](#delete-the-existing-vm).
+2. [Create a new VM](#create-a-vm-using-the-subscription).
+
 ## Set up a new VM
 
-1. [Create a VM](#create-a-vm).
+1. [Recreate the VM](#recreate-the-vm).
 2. [Set up the `SSH` access to the VM as the user `admin`](./vm-access.md#set-up-the-ssh-access-to-the-vm).
 3. [Provide the `Autochecker` agent with access to the VM](./autochecker.md#provide-the-autochecker-agent-with-access-to-the-vm-remote).
 4. [Harden the VM for the user `admin`](./vm-hardening.md#harden-the-vm).
-
-## Delete the VM
-
-1. [Go to the VM page](#go-to-the-vm-page).
-2. Click `DELETE`.
-
-## Troubleshooting
-
-Cases:
-
-- [VM takes too long to start](#vm-takes-too-long-to-start)
-
-### VM takes too long to start
-
-1. [Go to the VM page](./vm.md#go-to-the-vm-page).
-
-2. Go to the `quick glance` sidebar.
-
-3. You should see:
-
-   ```terminal
-   Status
-   Running
-   ```
-
-4. Otherwise:
-
-   Option 1: Wait for the status to change.
-
-   Option 2: If the status doesn't change for more than 20 minutes:
-
-     1. To stop the VM, click `STOP`.
-
-     2. To delete the VM, click `DELETE`.
