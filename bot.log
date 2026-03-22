@@ -1,30 +1,7 @@
-Installed 14 packages in 28ms
 INFO:__main__:Bot is starting in Telegram mode...
 INFO:aiogram.dispatcher:Start polling
 INFO:aiogram.dispatcher:Polling stopped
 Traceback (most recent call last):
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 779, in _request
-    resp = await handler(req)
-           ^^^^^^^^^^^^^^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
-    conn = await self._connector.connect(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        req, traces=traces, timeout=real_timeout
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 672, in connect
-    proto = await self._create_connection(req, traces, timeout)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1239, in _create_connection
-    _, proto = await self._create_direct_connection(req, traces, timeout)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1580, in _create_direct_connection
-    transp, proto = await self._wrap_create_connection(
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<7 lines>...
-    )
-    ^
   File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1313, in _wrap_create_connection
     return await self._loop.create_connection(*args, **kwargs, sock=sock)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -36,7 +13,7 @@ Traceback (most recent call last):
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 1231, in _create_connection_transport
     await waiter
-asyncio.exceptions.CancelledError
+ConnectionAbortedError: SSL handshake is taking longer than 60.0 seconds: aborting the connection
 
 The above exception was the direct cause of the following exception:
 
@@ -55,20 +32,41 @@ Traceback (most recent call last):
   File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 1510, in __aenter__
     self._resp: _RetType = await self._coro
                            ^^^^^^^^^^^^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 624, in _request
-    with timer:
-         ^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/helpers.py", line 713, in __exit__
-    raise asyncio.TimeoutError from exc_val
-TimeoutError
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1611, in _create_direct_connection
+    raise last_exc
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1580, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiohttp/connector.py", line 1321, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [None]
 
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "/root/se-toolkit-lab-7/bot/bot.py", line 141, in <module>
+  File "/root/se-toolkit-lab-7/bot/bot.py", line 240, in <module>
     main()
     ~~~~^^
-  File "/root/se-toolkit-lab-7/bot/bot.py", line 137, in main
+  File "/root/se-toolkit-lab-7/bot/bot.py", line 236, in main
     asyncio.run(telegram_mode(settings))
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 204, in run
@@ -80,7 +78,7 @@ Traceback (most recent call last):
   File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
     return future.result()
            ~~~~~~~~~~~~~^^
-  File "/root/se-toolkit-lab-7/bot/bot.py", line 112, in telegram_mode
+  File "/root/se-toolkit-lab-7/bot/bot.py", line 203, in telegram_mode
     await dp.start_polling(bot)
   File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/dispatcher/dispatcher.py", line 621, in start_polling
     await asyncio.gather(*done)
@@ -99,6 +97,6 @@ Traceback (most recent call last):
   File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/client/session/base.py", line 259, in __call__
     return cast(TelegramType, await middleware(bot, method))
                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/client/session/aiohttp.py", line 174, in make_request
-    raise TelegramNetworkError(method=method, message="Request timeout error") from e
-aiogram.exceptions.TelegramNetworkError: HTTP Client says - Request timeout error
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/client/session/aiohttp.py", line 176, in make_request
+    raise TelegramNetworkError(method=method, message=f"{type(e).__name__}: {e}") from e
+aiogram.exceptions.TelegramNetworkError: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [None]
