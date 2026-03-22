@@ -1,0 +1,3 @@
+INFO:__main__:Bot is starting in Telegram mode...
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @my_lms_lab72_bot id=8707244699 - 'My LMS Bot'
