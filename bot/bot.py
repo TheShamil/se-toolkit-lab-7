@@ -50,7 +50,7 @@ def handle_command(command: str, settings) -> str:
         return handle_help()
 
     if cmd == "health":
-        return handle_health(settings.lms_api_base_url)
+        return handle_health(settings.lms_api_base_url, settings.lms_api_key)
 
     if cmd == "labs":
         return handle_labs(settings.lms_api_base_url, settings.lms_api_key)
@@ -88,7 +88,7 @@ async def telegram_mode(settings) -> None:
     @dp.message(Command("health"))
     async def health_handler(message: Message) -> None:
         """Handle /health command."""
-        response = handle_health(settings.lms_api_base_url)
+        response = handle_health(settings.lms_api_base_url, settings.lms_api_key)
         await message.answer(response)
 
     @dp.message(Command("labs"))

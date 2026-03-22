@@ -28,7 +28,14 @@ def handle_labs(api_base_url: str, api_key: str) -> str:
             lab_names = [item.get("title", "Unknown") for item in labs]
             return "Available labs:\n" + "\n".join(f"• {name}" for name in lab_names)
         return f"⚠️ Backend returned status {response.status_code}"
-    except httpx.ConnectError:
-        return "❌ Backend is unreachable"
+    except httpx.ConnectError as e:
+        error_msg = str(e)
+        if "Connection refused" in error_msg:
+            return f"❌ Backend error: connection refused ({api_base_url}). Check that the services are running."
+        return f"❌ Backend error: {error_msg}"
     except httpx.TimeoutException:
         return "❌ Backend request timed out"
+    except httpx.HTTPStatusError as e:
+        return f"❌ Backend error: HTTP {e.response.status_code} {e.response.reason_phrase}. The backend service may be down."
+    except Exception as e:
+        return f"❌ Backend error: {str(e)}"
