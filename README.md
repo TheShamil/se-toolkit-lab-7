@@ -95,3 +95,77 @@ By the end of this lab, you should be able to say:
 ### Optional
 
 1. [Flutter Web Chatbot](./lab/tasks/optional/task-1.md)
+
+## Deploy
+
+The bot runs as a Docker container alongside the backend. This section explains how to deploy it.
+
+### Prerequisites
+
+1. **Environment files**: Ensure `.env.docker.secret` exists on your VM with the following variables:
+   - `BOT_TOKEN` — Your Telegram bot token from @BotFather
+   - `LMS_API_KEY` — API key for the LMS backend
+   - `LLM_API_KEY` — API key for the Qwen Code LLM
+   - `LLM_API_BASE_URL` — LLM API endpoint (e.g., `http://host.docker.internal:42005/v1`)
+   - `LLM_API_MODEL` — Model name (e.g., `coder-model`)
+
+2. **Backend running**: The backend must be running first. Start it with:
+   ```bash
+   docker compose --env-file .env.docker.secret up -d backend postgres caddy
+   ```
+
+### Deploy the bot
+
+1. **Stop any running bot process** (from development):
+   ```bash
+   pkill -f "bot.py" 2>/dev/null
+   ```
+
+2. **Build and start the bot container**:
+   ```bash
+   cd ~/se-toolkit-lab-7
+   docker compose --env-file .env.docker.secret up --build -d bot
+   ```
+
+3. **Verify the bot is running**:
+   ```bash
+   docker compose --env-file .env.docker.secret ps bot
+   docker compose --env-file .env.docker.secret logs bot --tail 20
+   ```
+
+   Look for:
+   - "Bot is starting in Telegram mode..."
+   - "Start polling"
+   - No Python tracebacks
+
+### Verify in Telegram
+
+Open Telegram and send these messages to your bot:
+
+| Message | Expected Response |
+|---------|-------------------|
+| `/start` | Welcome message with keyboard buttons |
+| `/health` | "Backend is healthy. X items available." |
+| "what labs are available?" | List of all labs |
+| "which lab has the lowest pass rate?" | Multi-step analysis with answer |
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Bot container keeps restarting | Check logs: `docker compose logs bot`. Usually missing env var or import error. |
+| `/health` fails | Ensure `LMS_API_BASE_URL=http://backend:8000` (Docker network name, not localhost). |
+| LLM queries fail | Use `host.docker.internal` in `LLM_API_BASE_URL` to reach the Qwen proxy on the host. |
+| "BOT_TOKEN is required" | Add `BOT_TOKEN` to `.env.docker.secret` (copy from `.env.bot.secret`). |
+
+### Stop the bot
+
+```bash
+docker compose --env-file .env.docker.secret stop bot
+```
+
+### Restart the bot
+
+```bash
+docker compose --env-file .env.docker.secret restart bot
+```
